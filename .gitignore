@@ -1,0 +1,8 @@
+# Ignore heavy AI models
+models/
+venv/
+__pycache__/
+*.safetensors
+*.pth
+*.bin
+.env
