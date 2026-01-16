@@ -12,8 +12,11 @@ from tqdm import tqdm
 
 # 1. Setup
 load_dotenv()
-model_path = "./models/llama3-8b"
-output_file = "benchmark_results.json"
+# model_path = "./models/llama3-8b"
+# output_file = "benchmark_results.json"
+
+model_path = "./models/mistral-7b-v0.3"
+output_file = "benchmark_results_mistral_pytorch.json"
 
 # Load Metrics
 print("Loading Metrics (ROUGE, BERTScore, BLEU)...")

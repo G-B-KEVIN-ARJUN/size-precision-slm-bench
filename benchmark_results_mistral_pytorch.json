@@ -1,0 +1,76 @@
+{
+  "summary": {
+    "model": "Llama-3-8B-Instruct",
+    "latency": 27.69659733772278,
+    "ttft": 1.0544344902038574,
+    "tpot": 0.18830322156065987,
+    "throughput": 5.900776752200943,
+    "rouge": {
+      "rouge1": 0.347474380538728,
+      "rouge2": 0.15046291494385916,
+      "rougeL": 0.2306793365007919,
+      "rougeLsum": 0.2837871673858961
+    },
+    "bleu": {
+      "bleu": 0.08224899903639056,
+      "precisions": [
+        0.24647887323943662,
+        0.0994671403197158,
+        0.05734767025089606,
+        0.0325497287522604
+      ],
+      "brevity_penalty": 1.0,
+      "length_ratio": 2.581818181818182,
+      "translation_length": 568,
+      "reference_length": 220
+    },
+    "bert_score_f1": 0.875646710395813
+  },
+  "detailed_runs": [
+    {
+      "generated": "The Palestinian Authority officially joined the International Criminal Court (ICC) as its 123rd member on Wednesday, granting the court jurisdiction over alleged crimes in Palestinian territories. This move was marked by a ceremony at The Hague, where the ICC is based. The Palestinians had previously signed the ICC's founding Rome Statute in January and accepted its jurisdiction over alleged crimes committed since June 2014 in the occupied Palestinian territories. The ICC opened a preliminary examination into the situation in Palestinian territories in January, potentially leading to war crimes investigations against Israelis. The move was opposed by Israel and the United States, neither of which are ICC members. However, Palestinian",
+      "reference": "Membership gives the ICC jurisdiction over alleged crimes committed in Palestinian territories since last June .\nIsrael and the United States opposed the move, which could open the door to war crimes investigations against Israelis .",
+      "latency": 35.06259369850159,
+      "ttft": 2.52775502204895,
+      "tpot": 0.21689892450968423,
+      "speed_tps": 4.306583856814137,
+      "total_tokens": 151
+    },
+    {
+      "generated": "A stray dog in Washington State, named Theia, survived after being hit by a car, being hit with a hammer, and being buried in a field. She was found emaciated and injured on a nearby farm and is currently receiving care at Washington State University's Veterinary Teaching Hospital. Despite her injuries, including a dislocated jaw, leg injuries, and a caved-in sinus cavity, she is described as gentle and loving. A fundraising page has been set up to help cover the cost of her treatment, which exceeded its $10,000 target. Theia's story has inspired donors, and any additional funds raised will be used to help other animals. Similar incidents",
+      "reference": "Theia, a bully breed mix, was apparently hit by a car, whacked with a hammer and buried in a field .\n\"She's a true miracle dog and she deserves a good life,\" says Sara Mellado, who is looking for a home for Theia .",
+      "latency": 13.291114091873169,
+      "ttft": 0.6437408924102783,
+      "tpot": 0.0843158213297526,
+      "speed_tps": 11.360973877451606,
+      "total_tokens": 151
+    },
+    {
+      "generated": "Mohammad Javad Zarif, the Iranian foreign minister, has been instrumental in nuclear discussions with the U.S., aiming to lift sanctions against Iran. He is known for his polished and jovial demeanor. However, less known facts about Zarif include his tweet wishing a happy Rosh Hashanah in 2013, his education in the U.S. from 1977 to 1988, his birthdate being uncertain, his alleged role in the Alavi Foundation investigation, and his participation in the Iranian Revolution by taking over the Iranian Consulate in San Francisco. Zarif is significantly younger than his U.S.",
+      "reference": "Mohammad Javad Zarif has spent more time with John Kerry than any other foreign minister .\nHe once participated in a takeover of the Iranian Consulate in San Francisco .\nThe Iranian foreign minister tweets in English .",
+      "latency": 33.74397158622742,
+      "ttft": 1.135784387588501,
+      "tpot": 0.21738791465759277,
+      "speed_tps": 4.474873374467592,
+      "total_tokens": 151
+    },
+    {
+      "generated": "Five Americans who were exposed to Ebola in West Africa have been released from a hospital in Omaha, Nebraska, after being monitored for three weeks. One of them had a heart-related issue but has since been discharged and remains in the area. The others have returned home. They are healthcare workers who were in contact with a colleague diagnosed with Ebola, who is currently being treated at the National Institutes of Health. The Centers for Disease Control and Prevention expects to release all 17 patients being monitored for Ebola exposure by Thursday. Over 10,000 people have died in the West African Ebola epidemic that began in December ",
+      "reference": "17 Americans were exposed to the Ebola virus while in Sierra Leone in March .\nAnother person was diagnosed with the disease and taken to hospital in Maryland .\nNational Institutes of Health says the patient is in fair condition after weeks of treatment .",
+      "latency": 32.19480848312378,
+      "ttft": 0.40227270126342773,
+      "tpot": 0.21195023854573566,
+      "speed_tps": 4.690197181298743,
+      "total_tokens": 151
+    },
+    {
+      "generated": "A Duke University student has admitted to hanging a noose from a tree near a student union, prompting a student march and a call for unity from the university president. The student is no longer on campus and faces a student conduct review. This incident is one of several recent racist events affecting college students, including a fraternity's removal of its charter at the University of Oklahoma and a noose incident at the University of Mississippi. Duke University is a private college with about 15,000 students in Durham, North Carolina.",
+      "reference": "Student is no longer on Duke University campus and will face disciplinary review .\nSchool officials identified student during investigation and the person admitted to hanging the noose, Duke says .\nThe noose, made of rope, was discovered on campus about 2 a.m.",
+      "latency": 24.19049882888794,
+      "ttft": 0.5626194477081299,
+      "tpot": 0.210963208760534,
+      "speed_tps": 4.671255470972639,
+      "total_tokens": 113
+    }
+  ]
+}
