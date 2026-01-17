@@ -10,22 +10,9 @@ from datasets import load_dataset
 from dotenv import load_dotenv
 from tqdm import tqdm
 
-# 1. Setup
 load_dotenv()
-# model_path = "./models/llama3-8b"
-# output_file = "benchmark_results.json"
-
-# model_path = "./models/mistral-7b-v0.3"
-# output_file = "benchmark_results_mistral_pytorch.json"
-
-# model_path = "./models/gemma-2-9b" 
-# output_file = "benchmark_results_gemma_pytorch.json"
-
-# model_path = "./models/qwen-2.5-7b"
-# output_file = "benchmark_results_qwen2.5_pytorch.json"
-
-model_path = "./models/phi-3-small-8k-instruct"
-output_file = "benchmark_results_phi3_small_8k_pytorch.json"
+model_path = "./models/phi-3.5-mini-instruct"
+output_file = "benchmark_results_phi3_mini_instruct_pytorch.json"
 
 # Load Metrics
 print("Loading Metrics (ROUGE, BERTScore, BLEU)...")
@@ -34,24 +21,22 @@ bertscore = evaluate.load("bertscore")
 bleu = evaluate.load("bleu")
 
 # 2. Load Model
-print(f"Loading Llama 3 from {model_path}...")
+print(f"Loading Model from {model_path}...")
+
 bnb_config = BitsAndBytesConfig(
-    load_in_4bit=True,
-    bnb_4bit_use_double_quant=True,
-    bnb_4bit_quant_type="nf4",
-    bnb_4bit_compute_dtype=torch.float16
+    load_in_8bit=True,              # <--- Changed to 8-bit (Higher Precision)
+    llm_int8_enable_fp32_cpu_offload=False
 )
 
-# tokenizer = AutoTokenizer.from_pretrained(model_path, local_files_only=True)
-tokenizer = AutoTokenizer.from_pretrained(model_path, local_files_only=True, trust_remote_code=True) #for microsoft models
-tokenizer.pad_token = tokenizer.eos_token 
+tokenizer = AutoTokenizer.from_pretrained(model_path, local_files_only=True, trust_remote_code=False) #for microsoft models
+tokenizer.pad_token = tokenizer.eos_token
 
 model = AutoModelForCausalLM.from_pretrained(
     model_path,
     quantization_config=bnb_config,
-    device_map="auto",
+    device_map="cuda:0",
     local_files_only=True,
-    trust_remote_code=True #for microsoft models
+    trust_remote_code=False #for microsoft models
 )
 
 # 3. Load Dataset
@@ -59,91 +44,77 @@ print("Loading Test Data...")
 # Running 5 samples
 dataset = load_dataset("cnn_dailymail", "3.0.0", split="test[:5]")
 
-print("\n--- Starting Benchmark with Streaming Metrics ---")
-results = []
-references = []
-predictions = []
+print("Benchmarking...")
+results=[]
+references=[]
+predictions=[]
 
 for item in tqdm(dataset):
     article = item['article']
     true_summary = item['highlights']
     
     # Prompt
-    # messages = [
-    #     {"role": "system", "content": "Summarize the following article in 3 sentences."},
-    #     {"role": "user", "content": article}
-    # ]
-
-    # # NEW CODE (Correct for Gemma, microsoft models)
+#phi 3.5 mini instruct
     messages = [
-        {"role": "user", "content": f"Summarize the following article in 3 sentences:\n\n{article}"}
+        { "role":"system", "content": "You are a helpful assistant that summarizes news articles." },
+        { "role":"user", "content": f"Summarize the following article in 3 sentences: \n\n{article}" }
     ]
-    
-    input_ids = tokenizer.apply_chat_template(messages, return_tensors="pt", add_generation_prompt=True).to("cuda")
-    attention_mask = input_ids.ne(tokenizer.pad_token_id).long()
-    
-    # --- STREAMING SETUP ---
+
+    input_ids = tokenizer.apply_chat_template(
+        messages, 
+        return_tensors="pt", 
+        add_generation_prompt=True
+    ).to("cuda")
     streamer = TextIteratorStreamer(tokenizer, skip_prompt=True, skip_special_tokens=True)
-    
-    generation_kwargs = dict(
-        input_ids=input_ids,
-        attention_mask=attention_mask,
+
+    generation_kwargs=dict(
+        input_ids = input_ids,
         max_new_tokens=150,
         pad_token_id=tokenizer.pad_token_id,
         streamer=streamer,
     )
-    
-    # Run generation in background thread
+
     thread = Thread(target=model.generate, kwargs=generation_kwargs)
-    
-    # Start Timer
+
     start_time = time.time()
     thread.start()
-    
-    generated_text = ""
-    first_token_received = False
-    ttft = 0.0
-    
-    # Consume Stream
-    for new_text in streamer:
-        if not first_token_received:
+
+    generate_text=""
+    first_token_recieved = False
+    ttft=0.0
+
+    for new_test in streamer:
+        if not first_token_recieved:
             ttft = time.time() - start_time
-            first_token_received = True
-        generated_text += new_text
+            first_token_recieved = True
+        generate_text += new_test
 
     end_time = time.time()
-    
-    # Calculations
-    latency = end_time - start_time
-    output_tokens = len(tokenizer.encode(generated_text))
-    
-    if output_tokens > 1:
-        tpot = (latency - ttft) / (output_tokens - 1)
-    else:
-        tpot = 0.0
-        
-    speed_tps = output_tokens / latency if latency > 0 else 0
 
-    # Store Data (FLATTENED STRUCTURE)
-    predictions.append(generated_text)
+    #metrics
+    latency = end_time - start_time
+    output_tokens = len(tokenizer.encode(generate_text))
+    speed_tps = output_tokens / latency if latency > 0 else 0
+    tpot = (latency-ttft) / (output_tokens-1) if output_tokens > 1 else 0
+
+    predictions.append(generate_text)
     references.append(true_summary)
-    
+
     results.append({
-        "generated": generated_text,
-        "reference": true_summary,
-        "latency": latency,     # <--- Top Level
-        "ttft": ttft,           # <--- Top Level
-        "tpot": tpot,           # <--- Top Level
+        "generation": generate_text,
+        "latency": latency,
         "speed_tps": speed_tps,
-        "total_tokens": output_tokens
+        "ttft": ttft,
+        "tpot": tpot
+
     })
 
-# 4. Compute Scores
-print("\nComputing Final Scores...")
+# Overall Metrics
+print(f"Computing final scores...")
 rouge_res = rouge.compute(predictions=predictions, references=references)
 bert_res = bertscore.compute(predictions=predictions, references=references, lang="en", device="cpu")
-bleu_references = [[ref] for ref in references]
-bleu_res = bleu.compute(predictions=predictions, references=bleu_references)
+bleu_res = bleu.compute(predictions=predictions, references=references)
+avg_bert = np.mean(bert_res['f1'])
 
 # 5. Final Averages
 avg_speed = np.mean([r['speed_tps'] for r in results])

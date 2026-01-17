@@ -17,8 +17,8 @@ login(token = hf_token)
 
 
 
-model_id = "microsoft/Phi-3-small-8k-Instruct"
-local_folder = "./models/phi-3-small-8k-instruct"
+model_id = "microsoft/Phi-3.5-mini-instruct"
+local_folder = "./models/phi-3.5-mini-instruct"
 
 # model_id = "Qwen/Qwen2.5-7B-Instruct" 
 # local_folder = "./models/qwen-2.5-7b"

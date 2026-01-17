@@ -1,0 +1,66 @@
+{
+  "summary": {
+    "model": "phi-3.5-mini-instruct",
+    "latency": 7.804151725769043,
+    "ttft": 0.32721652984619143,
+    "tpot": 0.07260652021964238,
+    "throughput": 13.394304532995966,
+    "rouge": {
+      "rouge1": 0.3657251825215212,
+      "rouge2": 0.13512227301256297,
+      "rougeL": 0.2427808652064945,
+      "rougeLsum": 0.2865980167810831
+    },
+    "bleu": {
+      "bleu": 0.07242682220909574,
+      "precisions": [
+        0.28860759493670884,
+        0.10256410256410256,
+        0.04415584415584416,
+        0.021052631578947368
+      ],
+      "brevity_penalty": 1.0,
+      "length_ratio": 1.7954545454545454,
+      "translation_length": 395,
+      "reference_length": 220
+    },
+    "bert_score_f1": 0.8766892910003662
+  },
+  "detailed_runs": [
+    {
+      "generation": "The Palestinian Authority has joined the International Criminal Court (ICC), granting the court jurisdiction over alleged crimes in Palestinian territories. This move, marked by a ceremony in The Hague, follows the Palestinians' acceptance of the ICC's jurisdiction over crimes committed since June 2014. The ICC's preliminary examination into the situation in Palestinian territories could lead to war crimes investigations against Israelis, despite opposition from Israel and the United States.",
+      "latency": 9.427253007888794,
+      "speed_tps": 12.198675468216155,
+      "ttft": 0.9763498306274414,
+      "tpot": 0.07413072962509959
+    },
+    {
+      "generation": "A stray dog in Washington State, Theia, survived multiple traumatic events including being hit by a car, a hammer attack, and burial, only to be found alive five days later. She suffered severe injuries, including a dislocated jaw and a caved-in sinus cavity, requiring extensive medical procedures. Despite the challenges, Theia's story has inspired a fundraising effort to cover her treatment costs, with donors already surpassing the $10,000 goal.",
+      "latency": 8.316246747970581,
+      "speed_tps": 13.34736731171275,
+      "ttft": 0.15742874145507812,
+      "tpot": 0.07417107278650457
+    },
+    {
+      "generation": "Mohammad Javad Zarif, the Iranian foreign minister, has been working with U.S. Secretary of State John Kerry to secure a nuclear agreement that could lift sanctions on Iran. Zarif, known for his jovial personality, has a complex background, with conflicting birth dates and a history of political activism during the Iranian Revolution. Despite past investigations into his alleged involvement with the Alavi Foundation, a charitable organization, a settlement did not mention his name, and he has spent significant time with Kerry in diplomatic efforts.",
+      "latency": 9.126919746398926,
+      "speed_tps": 13.257484820959577,
+      "ttft": 0.26151108741760254,
+      "tpot": 0.07387840549151102
+    },
+    {
+      "generation": "Five American clinicians monitored for Ebola exposure in Sierra Leone have been released from a Nebraska hospital, with one discharged due to a heart issue. They had contact with a colleague diagnosed with the virus, but none contracted it. The last of 17 patients under observation is expected to be released by Thursday.",
+      "latency": 5.2949912548065186,
+      "speed_tps": 14.164329342738553,
+      "ttft": 0.10994791984558105,
+      "tpot": 0.07006815317514781
+    },
+    {
+      "generation": "A Duke University student confessed to hanging a rope noose from a tree near the student union, prompting campus-wide protests and ongoing criminal investigations. The incident, which is part of a series of recent racist events on college campuses, has led to the student facing a conduct review and the university's vice president condemning the act as \"cowardly.\" The university is also investigating a previous report of hate speech on campus.",
+      "latency": 6.8553478717803955,
+      "speed_tps": 14.003665721352801,
+      "ttft": 0.1308450698852539,
+      "tpot": 0.07078424001994886
+    }
+  ]
+}
